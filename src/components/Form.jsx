@@ -1,14 +1,24 @@
 import React from "react";
+import Item from "./Item";
 
-export default function Form() {
+export default function Form(props) {
   return (
-    <main className="bg-yellow-50 rounded-lg text-gray-900 py-6 px-8">
-      <div className="h-40 bg-yellow-400 flex items-center justify-center">
-        <h2>Ekspentasi Kemudahan</h2>
+    <div className="rounded-lg text-gray-900">
+      <div className="h-20 rounded-t-lg bg-red-400 flex items-center justify-center">
+        <h2 className="text-lg font-bold text-white">{props.data.titleInd}</h2>
       </div>
-      <form action="">
-        <label htmlFor=""></label>
+      <form className="px-6 py-6">
+        {props.data.items.map((item, idx) => (
+          <Item
+            key={idx}
+            data={item}
+            index={idx}
+            handleItem={props.handleItem}
+            selected={props.selected}
+            id={props.data.id}
+          />
+        ))}
       </form>
-    </main>
+    </div>
   );
 }
