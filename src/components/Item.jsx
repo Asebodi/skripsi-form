@@ -5,15 +5,17 @@ export default function Item(props) {
   // console.log(props.data.itemId, props.selected[props.data.itemId]);
 
   return (
-    <div className={`pb-8 border-b ${props.index !== 0 && "pt-8"}`}>
-      <p className="mb-4">{props.data.question}</p>
-      <div className="flex items-center justify-between">
+    <div
+      className={`item-container pb-8 border-b ${props.index !== 0 && "pt-8"}`}
+    >
+      <p className="mb-4 font-bold">{props.data.question}</p>
+      <div className="grid grid-cols-3 items-end justify-between">
         <small className="text-gray-500">
           Sangat
           <br />
           tidak setuju
         </small>
-        <small className="text-gray-500">Netral</small>
+        <small className="text-gray-500 text-center">Netral</small>
         <small className="text-gray-500 text-right">
           Sangat
           <br /> setuju
@@ -28,9 +30,12 @@ export default function Item(props) {
               props.handleItem(event, props.id, props.data.itemId, 1);
             }
           }}
-          className={`bg-red-400 w-10 h-10 border rounded-lg ${
-            props.selected[props.data.itemId] === 1 &&
-            "border-2 border-yellow-500"
+          className={`bg-red-300 w-10 h-10 border rounded-lg transition duration-150 focus:outline-none ${
+            props.selected[props.data.itemId] === 1
+              ? "border-4 border-black font-bold"
+              : props.selected[props.data.itemId] !== undefined
+              ? "opacity-50"
+              : ""
           }`}
         >
           1
@@ -43,9 +48,12 @@ export default function Item(props) {
               props.handleItem(event, props.id, props.data.itemId, 2);
             }
           }}
-          className={`bg-red-300 w-10 h-10 border rounded-lg ${
-            props.selected[props.data.itemId] === 2 &&
-            "border-2 border-yellow-500"
+          className={`bg-red-200 w-10 h-10 border rounded-lg transition duration-150 focus:outline-none ${
+            props.selected[props.data.itemId] === 2
+              ? "border-4 border-black font-bold"
+              : props.selected[props.data.itemId] !== undefined
+              ? "opacity-50"
+              : ""
           }`}
         >
           2
@@ -58,9 +66,12 @@ export default function Item(props) {
               props.handleItem(event, props.id, props.data.itemId, 3);
             }
           }}
-          className={`bg-gray-200 w-10 h-10 border rounded-lg ${
-            props.selected[props.data.itemId] === 3 &&
-            "border-2 border-yellow-500"
+          className={`bg-gray-200 w-10 h-10 border rounded-lg transition duration-150 focus:outline-none ${
+            props.selected[props.data.itemId] === 3
+              ? "border-4 border-black bg-gray-300 font-bold"
+              : props.selected[props.data.itemId] !== undefined
+              ? "opacity-50"
+              : ""
           }`}
         >
           3
@@ -73,8 +84,12 @@ export default function Item(props) {
               props.handleItem(event, props.id, props.data.itemId, 4);
             }
           }}
-          className={`bg-green-200 w-10 h-10 border rounded-lg ${
-            props.selected[props.data.id] === 4 && "border-2 border-yellow-500"
+          className={`bg-green-200 w-10 h-10 border rounded-lg transition duration-150 focus:outline-none ${
+            props.selected[props.data.itemId] === 4
+              ? "border-4 border-black font-bold"
+              : props.selected[props.data.itemId] !== undefined
+              ? "opacity-50"
+              : ""
           }`}
         >
           4
@@ -87,8 +102,12 @@ export default function Item(props) {
               props.handleItem(event, props.id, props.data.itemId, 5);
             }
           }}
-          className={`bg-green-300 w-10 h-10 border rounded-lg ${
-            props.selected[props.data.id] === 5 && "border-2 border-yellow-500"
+          className={`bg-green-300 w-10 h-10 border rounded-lg transition duration-150 focus:outline-none ${
+            props.selected[props.data.itemId] === 5
+              ? "border-4 border-black font-bold"
+              : props.selected[props.data.itemId] !== undefined
+              ? "opacity-50"
+              : ""
           }`}
         >
           5
