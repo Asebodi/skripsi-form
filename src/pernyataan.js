@@ -3,51 +3,56 @@ const pernyataan = [
     title: "Effort Expectancy",
     titleInd: "Ekspektasi Kemudahan",
     id: "EE",
+    color: "bg-red-400",
 
     items: [
       {
         itemId: "EE1",
         isNegative: false,
-        question:
-          "Saya merasa bahwa aplikasi ini sangat bagus untuk digunakan.",
+        question: "Aplikasi Lapor Sleman mudah dipelajari.",
       },
       {
         itemId: "EE2",
         isNegative: false,
         question:
-          "Aplikasi Lapor Sleman sangat buruk dan tidak layak untuk digunakan.",
+          "Saya merasa mudah beradaptasi dalam menggunakan aplikasi Lapor Sleman untuk melakukan pengaduan.",
       },
       {
         itemId: "EE3",
-        isNegative: true,
+        isNegative: false,
         question:
-          "Saya suka membuka aplikasi Lapor Sleman untuk digunakan ketika sedang sange.",
+          "Bagi saya aplikasi Lapor Sleman tidak rumit untuk digunakan.",
+      },
+      {
+        itemId: "EE4",
+        isNegative: false,
+        question:
+          "Saya tidak merasa bingung ketika menggunakan aplikasi Lapor Sleman.",
       },
     ],
   },
 
   {
     title: "Performance Expectancy",
-    titleInd: "Ekspektasi Ke-anuan",
+    titleInd: "Ekspektasi Manfaat",
     id: "PE",
+    color: "bg-green-500",
 
     items: [
       {
         itemId: "PE1",
         isNegative: false,
-        question: "Aplikasi ini sampah banget kayak tai anjing tai.",
+        question: "Aplikasi Lapor Sleman dapat mempercepat proses pengaduan.",
       },
       {
         itemId: "PE2",
         isNegative: false,
-        question:
-          "Aplikasi Lapor Sleman dapat memudahkan proses pembuatan pengaduan.",
+        question: "Aplikasi Lapor Sleman dapat memudahkan proses pengaduan.",
       },
       {
         itemId: "PE3",
-        isNegative: true,
-        question:
-          "Saya merasa tidak nyaman ketika menggunakan aplikasi Lapor Sleman.",
+        isNegative: false,
+        question: "Aplikasi Lapor Sleman sangat bermanfaat bagi saya.",
       },
     ],
   },
