@@ -146,20 +146,22 @@ export default function Index() {
         </div>
       </main>
 
-      <div className="h-4 border w-3/5 mx-auto border-gray-300 shadow-lg rounded-full bg-white mt-10">
-        <div
-          className={`h-full bg-green-500 rounded-full transition-all duration-150 ${
-            pos === 0
-              ? "w-1/4"
-              : pos === 1
-              ? "w-2/4"
-              : pos === 2
-              ? "w-3/4"
-              : "w-full"
-          }`}
-        ></div>
+      <div className="max-w-xl mx-auto">
+        <div className="h-4 border w-3/5 mx-auto border-gray-300 shadow-lg rounded-full bg-white mt-10">
+          <div
+            className={`h-full bg-green-500 rounded-full transition-all duration-150 ${
+              pos === 0
+                ? "w-1/4"
+                : pos === 1
+                ? "w-2/4"
+                : pos === 2
+                ? "w-3/4"
+                : "w-full"
+            }`}
+          ></div>
+        </div>
+        <p className="text-center text-sm mt-2">Halaman {pos + 1} dari 4</p>
       </div>
-      <p className="text-center text-sm mt-2">Halaman {pos + 1} dari 4</p>
     </div>
   );
 }
