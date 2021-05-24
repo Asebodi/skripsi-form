@@ -1,4 +1,5 @@
 import React from "react";
+import { ReactComponent as Info } from "../assets/info.svg";
 
 export default function Finish() {
   return (
@@ -10,10 +11,12 @@ export default function Finish() {
         </p>
       </div>
 
-      <div className="flex items-center gap-4 mt-10 bg-white shadow-xl rounded-lg py-4 px-8">
-        <div className="w-10 h-10 rounded-lg bg-gray-300"></div>
-        <p>
-          Anda akan dikontak melalui Whatsapp jika beruntung mendapatkan saldo.
+      <div className="flex items-center gap-4 mt-10 bg-white rounded-xl shadow-xl border border-gray-100 py-3 px-4">
+        <div className="p-3 rounded-full bg-gray-200">
+          <Info />
+        </div>
+        <p className="">
+          Anda akan dikontak melalui Whatsapp jika beruntung mendapatkan hadiah.
         </p>
       </div>
     </div>

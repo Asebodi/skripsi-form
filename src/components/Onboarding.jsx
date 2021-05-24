@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { ReactComponent as Info } from "../assets/info.svg";
 
 export default function Onboarding() {
   return (
@@ -7,19 +8,20 @@ export default function Onboarding() {
       <p className="mb-4">Assalamu'alaikum Wr.Wb.</p>
 
       <p className="mb-4">
-        Perkenalkan saya Muhammad Raharditya Athafitra, Mahasiswa S1 Ilmu
-        Administrasi Negara dari Universitas Sebelas Maret (UNS) Surakarta. Saat
-        ini saya sedang melakukan penelitian skripsi yang berjudul
-        "Faktor-faktor yang Mempengaruhi Penerimaan Pengguna Aplikasi Lapor
-        Sleman di Kabupaten Sleman".
+        Perkenalkan saya <strong>Muhammad Raharditya Athafitra</strong>,
+        Mahasiswa S1 Ilmu Administrasi Negara dari Universitas Sebelas Maret
+        (UNS) Surakarta. Saat ini saya sedang melakukan penelitian skripsi yang
+        berjudul{" "}
+        <strong className="italic">
+          "Faktor-faktor yang Mempengaruhi Penerimaan Pengguna Aplikasi Lapor
+          Sleman di Kabupaten Sleman"
+        </strong>
+        .
       </p>
 
       <p className="mb-4">
-        Kuesioner ini digunakan untuk menguji kuesioner penelitian, sehingga
-        aplikasi yang diteliti adalah sistem pengaduan ULAS karena kemiripannya
-        dengan aplikasi Lapor Sleman. Penelitian ini ditujukan kepada responden
-        yang berdomisili di Surakarta yang pernah menggunakan aplikasi atau
-        website dari sistem pengaduan ULAS.
+        Penelitian ini ditujukan kepada responden yang berdomisili di Sleman
+        yang pernah menggunakan aplikasi dari sistem pengaduan Lapor Sleman.
       </p>
 
       <p className="mb-4">
@@ -33,18 +35,20 @@ export default function Onboarding() {
         kuesioner ini, saya ucapkan banyak terimakasih.
       </p>
 
-      <div className="mx-auto py-4 px-6 bg-green-100 rounded-lg flex gap-6 items-center">
-        <div className="p-6 rounded-lg bg-green-300"></div>
-        <div className="">
-          <h2 className="font-bold text-md mb-4">
-            Akan dibagi 100rb saldo Ovo/Dana/Gopay untuk 5 pengisi beruntung
-          </h2>
-          <Link>
-            <a href="/undian" className="underline">
-              Lihat informasinya di sini
-            </a>
-          </Link>
+      <div className="mx-auto py-3 px-4 bg-white rounded-xl shadow-xl border border-gray-100">
+        <div className="flex gap-4 items-center">
+          <div className="p-3 rounded-full bg-gray-200">
+            <Info />
+          </div>
+          <div className="">
+            <h2 className="font-bold text-md">
+              Akan dibagi 000rb saldo Ovo/Dana/Gopay untuk 5 responden beruntung
+            </h2>
+          </div>
         </div>
+        <Link to="/undian" className="underline block mt-4 text-center">
+          Lebih lanjut
+        </Link>
       </div>
     </div>
   );
