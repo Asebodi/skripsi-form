@@ -1,22 +1,44 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import useLocalStorage from "../useLocalStorage";
 import React from "react";
 
 import pernyataan from "../pernyataan";
 import Onboarding from "../components/Onboarding";
 import Form from "../components/Form";
 import Finish from "../components/Finish";
+import { firestore } from "../firebase";
+import { toast } from "react-toastify";
 // import { CSSTransition } from "react-transition-group";
 
 export default function Index() {
-  const [pos, setPos] = useState(0);
   const pageStartRef = useRef(null);
+
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [successSubmit, setSuccessSubmit] = useState(false);
+  const [submitInfo, setSubmitInfo] = useLocalStorage("submitInfo", null);
+
+  useEffect(() => {
+    if (submitInfo) {
+      setHasSubmitted(true);
+    }
+  }, []);
+  // const [error, setError] = useState({})
+
+  // function checkUnanswered(varIndex) {
+  //   let unanswered = []
+  //   pernyataan[varIndex].items.forEach(item => {
+  //     const filtered = ""
+  //   })
+  // }
+
+  const [pos, setPos] = useState(0);
   // const [mainHeight, setMainHeight] = useState(null);
 
   // function calcHeight(el) {
   //   const height = el.offsetHeight;
   //   setMainHeight(height);
   // }
-
+  // const [answer, setAnswer] = useState({})
   const [PE, setPE] = useState({});
 
   const [EE, setEE] = useState({});
@@ -59,6 +81,35 @@ export default function Index() {
     }
   }
 
+  function handleSubmit() {
+    const now = new Date();
+    const firestoreRef = firestore
+      .collection("respondents-test")
+      .doc(String(now.valueOf()));
+
+    firestoreRef
+      .set({ PE, EE, timeSubmitted: now })
+      .then(() => {
+        console.log("Success!");
+        toast("Jawaban berhasil disimpan");
+
+        setSuccessSubmit(true);
+        setSubmitInfo({
+          timeSubmitted: now,
+          id: now.valueOf(),
+          answers: { PE, EE },
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(`Error: ${err.message}`);
+      });
+  }
+
+  // setSubmitInfo({});
+  console.log(localStorage.submitInfo);
+  console.log(submitInfo);
+
   return (
     <div className="pt-8 pb-20 px-6" ref={pageStartRef}>
       <div className="mb-10">
@@ -76,14 +127,29 @@ export default function Index() {
         className="relative max-w-xl text-sm mx-auto bg-white shadow-xl rounded-xl text-gray-900 transition duration-150"
         // style={{ minHeight: "100vh" }}
       >
-        {pos === 0 && <Onboarding />}
-        {pos === 1 && (
-          <Form data={pernyataan[0]} selected={EE} handleItem={handleItem} />
+        {hasSubmitted ? (
+          <p>Sudah pernah submit</p>
+        ) : successSubmit ? (
+          <Finish />
+        ) : (
+          <>
+            {pos === 0 && <Onboarding />}
+            {pos === 1 && (
+              <Form
+                data={pernyataan[0]}
+                selected={EE}
+                handleItem={handleItem}
+              />
+            )}
+            {pos === 2 && (
+              <Form
+                data={pernyataan[1]}
+                selected={PE}
+                handleItem={handleItem}
+              />
+            )}
+          </>
         )}
-        {pos === 2 && (
-          <Form data={pernyataan[1]} selected={PE} handleItem={handleItem} />
-        )}
-        {pos === 3 && <Finish />}
 
         {/* <CSSTransition
           in={pos === 0}
@@ -124,7 +190,7 @@ export default function Index() {
 
         <div
           className={`flex items-center justify-between mt-8 px-8 py-6 ${
-            pos === 3 && "hidden"
+            successSubmit || hasSubmitted ? "hidden" : ""
           }`}
         >
           {/* <div className={`flex items-center justify-between mt-8 px-8 py-6`}> */}
@@ -137,16 +203,25 @@ export default function Index() {
           >
             Kembali
           </button>
-          <button
-            className="py-2 px-6 rounded-lg border border-gray-400 shadow-lg focus:shadow-sm transition duration-150 "
-            onClick={handleNext}
-          >
-            Lanjut
-          </button>
+          {pos === 2 ? (
+            <button
+              className="py-2 px-6 rounded-lg border border-gray-400 shadow-lg focus:shadow-sm transition duration-150 "
+              onClick={handleSubmit}
+            >
+              Kirim
+            </button>
+          ) : (
+            <button
+              className="py-2 px-6 rounded-lg border border-gray-400 shadow-lg focus:shadow-sm transition duration-150 "
+              onClick={handleNext}
+            >
+              Lanjut
+            </button>
+          )}
         </div>
       </main>
 
-      <div className="max-w-xl mx-auto">
+      <div className={`max-w-xl mx-auto ${hasSubmitted ? "hidden" : ""}`}>
         <div className="h-4 border w-3/5 mx-auto border-gray-300 shadow-lg rounded-full bg-white mt-10">
           <div
             className={`h-full bg-green-500 rounded-full transition-all duration-150 ${
