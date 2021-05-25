@@ -1,4 +1,7 @@
 import { BrowserRouter, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import Index from "./pages/Index";
 
 function App() {
@@ -9,6 +12,7 @@ function App() {
           <Index />
         </Route>
       </BrowserRouter>
+      <ToastContainer />
     </div>
   );
 }
