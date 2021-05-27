@@ -8,12 +8,11 @@ import Form from "../components/Form";
 import Finish from "../components/Finish";
 import { firestore } from "../firebase";
 import { toast } from "react-toastify";
-// import { CSSTransition } from "react-transition-group";
+import Bio from "../components/Bio";
 
 export default function Index() {
   const pageStartRef = useRef(null);
 
-  const [errors, setErrors] = useState([]);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [successSubmit, setSuccessSubmit] = useState(false);
   const [submitInfo, setSubmitInfo] = useLocalStorage("submitInfo", null);
@@ -23,25 +22,22 @@ export default function Index() {
       setHasSubmitted(true);
     }
   }, []);
-  // const [error, setError] = useState({})
-
-  // function checkUnanswered(varIndex) {
-  //   let unanswered = []
-  //   pernyataan[varIndex].items.forEach(item => {
-  //     const filtered = ""
-  //   })
-  // }
 
   const [pos, setPos] = useState(0);
-  // const [mainHeight, setMainHeight] = useState(null);
 
-  // function calcHeight(el) {
-  //   const height = el.offsetHeight;
-  //   setMainHeight(height);
-  // }
-  // const [answer, setAnswer] = useState({})
-
-  const answers = {};
+  const [answers, setAnswers] = useState({
+    name: "",
+    phoneNum: "",
+    ageRange: "",
+    sex: "",
+    EE1: "",
+    EE2: "",
+    EE3: "",
+    EE4: "",
+    PE1: "",
+    PE2: "",
+    PE3: "",
+  });
 
   const [PE, setPE] = useState({
     selected: [],
@@ -54,26 +50,51 @@ export default function Index() {
     pageStartRef.current?.scrollIntoView({ behavior: "smooth" });
   }
 
-  function handleItem(event, id, item, value) {
+  function handleItem(event, id, item, value, actualValue) {
     event.preventDefault();
     console.log(id, item, value);
 
-    let clone;
+    setAnswers({ ...answers, [item]: actualValue });
+    console.log(answers);
 
     switch (id) {
       case "PE":
-        clone = PE;
-        clone[selected].push({ item });
-        clone[item] = value;
+        const PEfilter = PE.selected.filter(
+          (currentItem) => currentItem === item
+        );
 
-        return setPE(clone);
+        if (PEfilter.length !== 0) {
+          console.log("Repicked");
+          return setPE({
+            ...PE,
+            [item]: value,
+          });
+        } else {
+          return setPE({
+            ...PE,
+            [item]: value,
+            selected: [...PE.selected, item],
+          });
+        }
 
       case "EE":
-        clone = EE;
-        clone[selected].push({ item });
-        clone[item] = value;
+        const EEfilter = EE.selected.filter(
+          (currentItem) => currentItem === item
+        );
 
-        return setEE(clone);
+        if (EEfilter.length !== 0) {
+          console.log("Repicked");
+          return setEE({
+            ...EE,
+            [item]: value,
+          });
+        } else {
+          return setEE({
+            ...EE,
+            [item]: value,
+            selected: [...EE.selected, item],
+          });
+        }
 
       default:
         break;
@@ -81,20 +102,21 @@ export default function Index() {
   }
 
   function checkAnswerCount() {
-    let answered;
-
     switch (pos) {
       case 0:
-        answered = EE.selected;
-        if (answered.length !== pernyataan[0].items.length) {
+        return true;
+
+      case 1:
+        console.log(EE);
+        if (EE.selected.length !== pernyataan[0].items.length) {
           toast("Masih ada pertanyaan yang kosong!");
           return false;
         }
         return true;
 
-      case 1:
-        answered = PE.selected;
-        if (answered.length !== pernyataan[1].items.length) {
+      case 2:
+        console.log(PE);
+        if (PE.selected.length !== pernyataan[1].items.length) {
           toast("Masih ada pertanyaan yang kosong!");
           return false;
         }
@@ -131,28 +153,32 @@ export default function Index() {
       .collection("respondents-test")
       .doc(String(now.valueOf()));
 
-    firestoreRef
-      .set({ PE, EE, timeSubmitted: now })
-      .then(() => {
-        console.log("Success!");
-        toast("Jawaban berhasil disimpan");
+    console.log(answers);
 
-        setSuccessSubmit(true);
-        setSubmitInfo({
-          timeSubmitted: now,
-          id: now.valueOf(),
-          answers: { PE, EE },
+    if (checkAnswerCount()) {
+      firestoreRef
+        .set(answers)
+        .then(() => {
+          console.log("Success!");
+          toast("Jawaban berhasil disimpan");
+
+          // setSuccessSubmit(true);
+          // setSubmitInfo({
+          //   timeSubmitted: now,
+          //   id: now.valueOf(),
+          //   answers: { PE, EE },
+          // });
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error(`Error: ${err.message}`);
         });
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error(`Error: ${err.message}`);
-      });
+    }
   }
 
   // setSubmitInfo({});
-  console.log(localStorage.submitInfo);
-  console.log(submitInfo);
+  // console.log(successSubmit);
+  // console.log(hasSubmitted);
 
   return (
     <div className="pt-8 pb-20 px-6" ref={pageStartRef}>
@@ -177,7 +203,8 @@ export default function Index() {
           <Finish />
         ) : (
           <>
-            {pos === 0 && <Onboarding />}
+            {/* {pos === 0 && <Onboarding />} */}
+            {pos === 0 && <Bio />}
             {pos === 1 && (
               <Form
                 data={pernyataan[0]}
@@ -195,73 +222,37 @@ export default function Index() {
           </>
         )}
 
-        {/* <CSSTransition
-          in={pos === 0}
-          timeout={500}
-          classNames="my-node"
-          onEnter={calcHeight}
-          unmountOnExit
-        >
-          <Onboarding />
-        </CSSTransition>
-        <CSSTransition
-          in={pos === 1}
-          timeout={500}
-          classNames="my-node"
-          onEnter={calcHeight}
-          unmountOnExit
-        >
-          <Form data={pernyataan[0]} selected={EE} handleItem={handleItem} />
-        </CSSTransition>
-        <CSSTransition
-          in={pos === 2}
-          timeout={500}
-          classNames="my-node"
-          onEnter={calcHeight}
-          unmountOnExit
-        >
-          <Form data={pernyataan[1]} selected={PE} handleItem={handleItem} />
-        </CSSTransition>
-        <CSSTransition
-          in={pos === 3}
-          timeout={500}
-          classNames="my-node"
-          onEnter={calcHeight}
-          unmountOnExit
-        >
-          <Finish />
-        </CSSTransition> */}
-
-        {!successSubmit ||
-          (!hasSubmitted && (
-            <div className={`flex items-center justify-between mt-8 px-8 py-6`}>
-              {/* <div className={`flex items-center justify-between mt-8 px-8 py-6`}> */}
+        {successSubmit === false || hasSubmitted === false ? (
+          <div className={`flex items-center justify-between mt-8 px-8 py-6`}>
+            {/* <div className={`flex items-center justify-between mt-8 px-8 py-6`}> */}
+            <button
+              className={`py-2 px-6 rounded-lg border border-gray-400 shadow-lg focus:shadow-sm transition duration-150 ${
+                pos === 0 ? "opacity-50" : ""
+              }`}
+              disabled={pos === 0}
+              onClick={handlePrev}
+            >
+              Kembali
+            </button>
+            {pos === 2 ? (
               <button
-                className={`py-2 px-6 rounded-lg border border-gray-400 shadow-lg focus:shadow-sm transition duration-150 ${
-                  pos === 0 ? "opacity-50" : ""
-                }`}
-                disabled={pos === 0}
-                onClick={handlePrev}
+                className="py-2 px-6 rounded-lg border border-gray-400 shadow-lg focus:shadow-sm transition duration-150 "
+                onClick={handleSubmit}
               >
-                Kembali
+                Kirim
               </button>
-              {pos === 2 ? (
-                <button
-                  className="py-2 px-6 rounded-lg border border-gray-400 shadow-lg focus:shadow-sm transition duration-150 "
-                  onClick={handleSubmit}
-                >
-                  Kirim
-                </button>
-              ) : (
-                <button
-                  className="py-2 px-6 rounded-lg border border-gray-400 shadow-lg focus:shadow-sm transition duration-150 "
-                  onClick={handleNext}
-                >
-                  Lanjut
-                </button>
-              )}
-            </div>
-          ))}
+            ) : (
+              <button
+                className="py-2 px-6 rounded-lg border border-gray-400 shadow-lg focus:shadow-sm transition duration-150 "
+                onClick={handleNext}
+              >
+                Lanjut
+              </button>
+            )}
+          </div>
+        ) : (
+          ""
+        )}
       </main>
 
       <div className={`max-w-xl mx-auto ${hasSubmitted ? "hidden" : ""}`}>
