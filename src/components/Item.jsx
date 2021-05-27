@@ -25,9 +25,9 @@ export default function Item(props) {
         <button
           onClick={(event) => {
             if (props.data.isNegative) {
-              props.handleItem(event, props.id, props.data.itemId, 5);
+              props.handleItem(event, props.id, props.data.itemId, 1, 5);
             } else {
-              props.handleItem(event, props.id, props.data.itemId, 1);
+              props.handleItem(event, props.id, props.data.itemId, 1, 1);
             }
           }}
           className={`bg-red-300 w-10 h-10 border rounded-lg transition duration-150 focus:outline-none ${
@@ -43,9 +43,9 @@ export default function Item(props) {
         <button
           onClick={(event) => {
             if (props.data.isNegative) {
-              props.handleItem(event, props.id, props.data.itemId, 4);
+              props.handleItem(event, props.id, props.data.itemId, 2, 4);
             } else {
-              props.handleItem(event, props.id, props.data.itemId, 2);
+              props.handleItem(event, props.id, props.data.itemId, 2, 2);
             }
           }}
           className={`bg-red-200 w-10 h-10 border rounded-lg transition duration-150 focus:outline-none ${
@@ -61,9 +61,9 @@ export default function Item(props) {
         <button
           onClick={(event) => {
             if (props.data.isNegative) {
-              props.handleItem(event, props.id, props.data.itemId, 3);
+              props.handleItem(event, props.id, props.data.itemId, 3, 3);
             } else {
-              props.handleItem(event, props.id, props.data.itemId, 3);
+              props.handleItem(event, props.id, props.data.itemId, 3, 3);
             }
           }}
           className={`bg-gray-200 w-10 h-10 border rounded-lg transition duration-150 focus:outline-none ${
@@ -79,9 +79,9 @@ export default function Item(props) {
         <button
           onClick={(event) => {
             if (props.data.isNegative) {
-              props.handleItem(event, props.id, props.data.itemId, 2);
+              props.handleItem(event, props.id, props.data.itemId, 4, 2);
             } else {
-              props.handleItem(event, props.id, props.data.itemId, 4);
+              props.handleItem(event, props.id, props.data.itemId, 4, 4);
             }
           }}
           className={`bg-green-200 w-10 h-10 border rounded-lg transition duration-150 focus:outline-none ${
@@ -97,9 +97,9 @@ export default function Item(props) {
         <button
           onClick={(event) => {
             if (props.data.isNegative) {
-              props.handleItem(event, props.id, props.data.itemId, 1);
+              props.handleItem(event, props.id, props.data.itemId, 5, 1);
             } else {
-              props.handleItem(event, props.id, props.data.itemId, 5);
+              props.handleItem(event, props.id, props.data.itemId, 5, 5);
             }
           }}
           className={`bg-green-300 w-10 h-10 border rounded-lg transition duration-150 focus:outline-none ${
