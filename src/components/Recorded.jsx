@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ReactComponent as Info } from "../assets/info.svg";
 
-export default function Finish() {
+export default function Recorded() {
   return (
     <div className="px-6 py-8">
       <div className="text-center">
