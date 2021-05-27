@@ -6,9 +6,10 @@ import pernyataan from "../pernyataan";
 import Onboarding from "../components/Onboarding";
 import Form from "../components/Form";
 import Finish from "../components/Finish";
-import { firestore } from "../firebase";
+import { analytics, firestore } from "../firebase";
 import { toast } from "react-toastify";
 import Bio from "../components/Bio";
+import Recorded from "../components/Recorded";
 
 export default function Index() {
   const pageStartRef = useRef(null);
@@ -18,10 +19,14 @@ export default function Index() {
   const [submitInfo, setSubmitInfo] = useLocalStorage("submitInfo", null);
 
   useEffect(() => {
+    analytics.logEvent("page_view", {
+      page_path: "/",
+    });
+
     if (submitInfo) {
       setHasSubmitted(true);
     }
-  }, []);
+  }, [submitInfo]);
 
   const [pos, setPos] = useState(0);
 
@@ -48,6 +53,12 @@ export default function Index() {
 
   function scrollToTop() {
     pageStartRef.current?.scrollIntoView({ behavior: "smooth" });
+  }
+
+  function handleBio(event, item, value) {
+    event.preventDefault();
+
+    setAnswers({ ...answers, [item]: value });
   }
 
   function handleItem(event, id, item, value, actualValue) {
@@ -107,23 +118,35 @@ export default function Index() {
         return true;
 
       case 1:
+        return true;
+
+      case 2:
         console.log(EE);
         if (EE.selected.length !== pernyataan[0].items.length) {
-          toast("Masih ada pertanyaan yang kosong!");
+          toast.error("Masih ada pertanyaan yang kosong!");
           return false;
         }
         return true;
 
-      case 2:
+      case 3:
         console.log(PE);
         if (PE.selected.length !== pernyataan[1].items.length) {
-          toast("Masih ada pertanyaan yang kosong!");
+          toast.error("Masih ada pertanyaan yang kosong!");
           return false;
         }
         return true;
 
       default:
         break;
+    }
+  }
+
+  function checkBio() {
+    if (answers.name && answers.ageRange && answers.sex) {
+      return true;
+    } else {
+      toast.error("Data belum lengkap!");
+      return false;
     }
   }
 
@@ -137,17 +160,43 @@ export default function Index() {
   }
 
   function handleNext(e) {
-    e.preventDefault();
+    if (pos === 0) {
+      analytics.logEvent("questionnaire_start");
+      setPos(pos + 1);
+      scrollToTop();
+      return;
+    }
+
+    if (pos === 1) {
+      analytics.logEvent("next_button", {
+        position: pos,
+      });
+
+      if (checkBio()) {
+        console.log(answers);
+        setPos(pos + 1);
+        scrollToTop();
+      }
+      return;
+    }
 
     if (pos <= 3) {
+      e.preventDefault();
+
+      analytics.logEvent("next_button", {
+        position: pos,
+      });
+
       if (checkAnswerCount()) {
         setPos(pos + 1);
         scrollToTop();
+        return;
       }
     }
   }
 
   function handleSubmit() {
+    analytics.logEvent("submit_button");
     const now = new Date();
     const firestoreRef = firestore
       .collection("respondents-test")
@@ -160,25 +209,29 @@ export default function Index() {
         .set(answers)
         .then(() => {
           console.log("Success!");
-          toast("Jawaban berhasil disimpan");
+          analytics.logEvent("success_send");
+          toast.success("Jawaban berhasil disimpan");
 
-          // setSuccessSubmit(true);
-          // setSubmitInfo({
-          //   timeSubmitted: now,
-          //   id: now.valueOf(),
-          //   answers: { PE, EE },
-          // });
+          setSuccessSubmit(true);
+          setSubmitInfo({
+            timeSubmitted: now,
+            id: now.valueOf(),
+            answers: { PE, EE },
+          });
         })
         .catch((err) => {
           console.log(err);
+          analytics.logEvent("exception", {
+            description: err.message,
+          });
           toast.error(`Error: ${err.message}`);
         });
     }
   }
 
   // setSubmitInfo({});
-  // console.log(successSubmit);
-  // console.log(hasSubmitted);
+  console.log(successSubmit);
+  console.log(hasSubmitted);
 
   return (
     <div className="pt-8 pb-20 px-6" ref={pageStartRef}>
@@ -198,21 +251,21 @@ export default function Index() {
         // style={{ minHeight: "100vh" }}
       >
         {hasSubmitted ? (
-          <p>Sudah pernah submit</p>
+          <Recorded />
         ) : successSubmit ? (
           <Finish />
         ) : (
           <>
-            {/* {pos === 0 && <Onboarding />} */}
-            {pos === 0 && <Bio />}
-            {pos === 1 && (
+            {pos === 0 && <Onboarding />}
+            {pos === 1 && <Bio answers={answers} handleBio={handleBio} />}
+            {pos === 2 && (
               <Form
                 data={pernyataan[0]}
                 selected={EE}
                 handleItem={handleItem}
               />
             )}
-            {pos === 2 && (
+            {pos === 3 && (
               <Form
                 data={pernyataan[1]}
                 selected={PE}
@@ -222,54 +275,64 @@ export default function Index() {
           </>
         )}
 
-        {successSubmit === false || hasSubmitted === false ? (
-          <div className={`flex items-center justify-between mt-8 px-8 py-6`}>
-            {/* <div className={`flex items-center justify-between mt-8 px-8 py-6`}> */}
-            <button
-              className={`py-2 px-6 rounded-lg border border-gray-400 shadow-lg focus:shadow-sm transition duration-150 ${
-                pos === 0 ? "opacity-50" : ""
-              }`}
-              disabled={pos === 0}
-              onClick={handlePrev}
-            >
-              Kembali
-            </button>
-            {pos === 2 ? (
+        {successSubmit === false ? (
+          hasSubmitted === false ? (
+            <div className={`flex items-center justify-between mt-8 px-8 py-6`}>
+              {/* <div className={`flex items-center justify-between mt-8 px-8 py-6`}> */}
               <button
-                className="py-2 px-6 rounded-lg border border-gray-400 shadow-lg focus:shadow-sm transition duration-150 "
-                onClick={handleSubmit}
+                className={`py-2 px-6 rounded-lg border border-gray-400 shadow-lg focus:shadow-sm transition duration-150 ${
+                  pos === 0 ? "opacity-50" : ""
+                }`}
+                disabled={pos === 0}
+                onClick={handlePrev}
               >
-                Kirim
+                Kembali
               </button>
-            ) : (
-              <button
-                className="py-2 px-6 rounded-lg border border-gray-400 shadow-lg focus:shadow-sm transition duration-150 "
-                onClick={handleNext}
-              >
-                Lanjut
-              </button>
-            )}
-          </div>
+              {pos === 3 ? (
+                <button
+                  className="py-2 px-6 rounded-lg border border-gray-400 shadow-lg focus:shadow-sm transition duration-150 "
+                  onClick={handleSubmit}
+                >
+                  Kirim
+                </button>
+              ) : (
+                <button
+                  className="py-2 px-6 rounded-lg border border-gray-400 shadow-lg focus:shadow-sm transition duration-150 "
+                  onClick={handleNext}
+                >
+                  Lanjut
+                </button>
+              )}
+            </div>
+          ) : (
+            ""
+          )
         ) : (
           ""
         )}
       </main>
 
-      <div className={`max-w-xl mx-auto ${hasSubmitted ? "hidden" : ""}`}>
+      <div
+        className={`max-w-xl mx-auto ${
+          successSubmit || hasSubmitted ? "hidden" : ""
+        }`}
+      >
         <div className="h-4 border w-3/5 mx-auto border-gray-300 shadow-lg rounded-full bg-white mt-10">
           <div
             className={`h-full bg-green-500 rounded-full transition-all duration-150 ${
-              pos === 0
+              pos === 0 || pos === 1
                 ? "w-1/4"
-                : pos === 1
-                ? "w-2/4"
                 : pos === 2
+                ? "w-2/4"
+                : pos === 3
                 ? "w-3/4"
-                : "w-full"
+                : successSubmit
+                ? "w-full"
+                : ""
             }`}
           ></div>
         </div>
-        <p className="text-center text-sm mt-2">Halaman {pos + 1} dari 4</p>
+        <p className="text-center text-sm mt-2">Halaman {pos + 1} dari 5</p>
       </div>
     </div>
   );

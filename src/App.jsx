@@ -12,7 +12,7 @@ function App() {
           <Index />
         </Route>
       </BrowserRouter>
-      <ToastContainer />
+      <ToastContainer position="bottom-center" />
     </div>
   );
 }
