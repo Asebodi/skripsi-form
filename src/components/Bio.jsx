@@ -24,7 +24,7 @@ export default function Bio(props) {
               props.handleBio(event, "sex", event.target.value)
             }
           >
-            <div className="flex items-center gap-2 mb-2">
+            <div className="flex items-center mb-2">
               <input
                 type="radio"
                 name="sex"
@@ -32,9 +32,11 @@ export default function Bio(props) {
                 value={0}
                 defaultChecked={props.answers.sex === 0}
               />
-              <label htmlFor="sex0">Laki-laki</label>
+              <label htmlFor="sex0" className="pl-2">
+                Laki-laki
+              </label>
             </div>
-            <div className="flex items-center gap-2 mb-2">
+            <div className="flex items-center mb-2">
               <input
                 type="radio"
                 name="sex"
@@ -42,7 +44,9 @@ export default function Bio(props) {
                 value={1}
                 defaultChecked={props.answers.sex === 1}
               />
-              <label htmlFor="sex1">Perempuan</label>
+              <label htmlFor="sex1" className="pl-2">
+                Perempuan
+              </label>
             </div>
           </div>
         </div>
@@ -56,35 +60,40 @@ export default function Bio(props) {
               props.handleBio(event, "ageRange", event.target.value)
             }
           >
-            <div className="flex items-center gap-2 mb-2">
-              <input type="radio" name="age" id="age0" value="17 - 24 Tahun" />
-              <label htmlFor="age0">17 - 24 Tahun</label>
+            <div className="flex items-center mb-2">
+              <input type="radio" name="age" id="age0" value={0} />
+              <label htmlFor="age0" className="pl-2">
+                17 - 24 Tahun
+              </label>
             </div>
-            <div className="flex items-center gap-2 mb-2">
-              <input type="radio" name="age" id="age1" value="25 - 34 Tahun" />
-              <label htmlFor="age1">25 - 34 Tahun</label>
+            <div className="flex items-center mb-2">
+              <input type="radio" name="age" id="age1" value={1} />
+              <label htmlFor="age1" className="pl-2">
+                25 - 34 Tahun
+              </label>
             </div>
-            <div className="flex items-center gap-2 mb-2">
-              <input type="radio" name="age" id="age2" value="35 - 49 Tahun" />
-              <label htmlFor="age2">35 - 49 Tahun</label>
+            <div className="flex items-center mb-2">
+              <input type="radio" name="age" id="age2" value={2} />
+              <label htmlFor="age2" className="pl-2">
+                35 - 49 Tahun
+              </label>
             </div>
-            <div className="flex items-center gap-2 mb-2">
-              <input type="radio" name="age" id="age3" value="50 - 64 Tahun" />
-              <label htmlFor="age3">50 - 64 Tahun</label>
+            <div className="flex items-center mb-2">
+              <input type="radio" name="age" id="age3" value={3} />
+              <label htmlFor="age3" className="pl-2">
+                50 - 64 Tahun
+              </label>
             </div>
-            <div className="flex items-center gap-2 mb-2">
-              <input
-                type="radio"
-                name="age"
-                id="age4"
-                value="65 tahun keatas"
-              />
-              <label htmlFor="age4">65 tahun keatas</label>
+            <div className="flex items-center mb-2">
+              <input type="radio" name="age" id="age4" value={4} />
+              <label htmlFor="age4" className="pl-2">
+                65 tahun keatas
+              </label>
             </div>
           </div>
         </div>
 
-        <div className="mb-8">
+        <div className="">
           <h2 className="font-bold">Nomor Whatsapp</h2>
           <small className="block mb-3">
             (Opsional, digunakan untuk pengundian hadiah)

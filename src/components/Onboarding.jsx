@@ -36,13 +36,13 @@ export default function Onboarding() {
       </p>
 
       <div className="mx-auto py-3 px-4 bg-white rounded-xl shadow-xl border border-gray-100">
-        <div className="flex gap-4 items-center">
-          <div className="p-3 rounded-full bg-gray-200">
+        <div className="flex items-center">
+          <div className="p-3 mr-4 rounded-full bg-gray-200">
             <Info />
           </div>
           <div className="">
             <h2 className="font-bold text-md">
-              Akan dibagi 000rb saldo Ovo/Dana/Gopay untuk 5 responden beruntung
+              Akan dibagi 100rb saldo Ovo/Dana/Gopay untuk 5 responden beruntung
             </h2>
           </div>
         </div>

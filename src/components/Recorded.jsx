@@ -12,8 +12,8 @@ export default function Recorded() {
         </p>
       </div>
 
-      <div className="flex items-center gap-4 mt-10 bg-white rounded-xl shadow-xl border border-gray-100 py-3 px-4">
-        <div className="p-3 rounded-full bg-gray-200">
+      <div className="flex items-center mt-10 bg-white rounded-xl shadow-xl border border-gray-100 py-3 px-4">
+        <div className="p-3 mr-4 rounded-full bg-gray-200">
           <Info />
         </div>
         <div className="">
