@@ -35,19 +35,27 @@ export default function Index() {
     phoneNum: "",
     ageRange: "",
     sex: "",
-    EE1: "",
-    EE2: "",
-    EE3: "",
-    EE4: "",
-    PE1: "",
-    PE2: "",
-    PE3: "",
   });
 
   const [PE, setPE] = useState({
     selected: [],
   });
   const [EE, setEE] = useState({
+    selected: [],
+  });
+  const [SI, setSI] = useState({
+    selected: [],
+  });
+  const [FC, setFC] = useState({
+    selected: [],
+  });
+  const [PR, setPR] = useState({
+    selected: [],
+  });
+  const [AT, setAT] = useState({
+    selected: [],
+  });
+  const [BI, setBI] = useState({
     selected: [],
   });
 
@@ -107,6 +115,101 @@ export default function Index() {
           });
         }
 
+      case "SI":
+        const SIfilter = SI.selected.filter(
+          (currentItem) => currentItem === item
+        );
+
+        if (SIfilter.length !== 0) {
+          console.log("Repicked");
+          return setSI({
+            ...SI,
+            [item]: value,
+          });
+        } else {
+          return setSI({
+            ...SI,
+            [item]: value,
+            selected: [...SI.selected, item],
+          });
+        }
+
+      case "FC":
+        const FCfilter = FC.selected.filter(
+          (currentItem) => currentItem === item
+        );
+
+        if (FCfilter.length !== 0) {
+          console.log("Repicked");
+          return setFC({
+            ...FC,
+            [item]: value,
+          });
+        } else {
+          return setFC({
+            ...FC,
+            [item]: value,
+            selected: [...FC.selected, item],
+          });
+        }
+
+      case "PR":
+        const PRfilter = PR.selected.filter(
+          (currentItem) => currentItem === item
+        );
+
+        if (PRfilter.length !== 0) {
+          console.log("Repicked");
+          return setPR({
+            ...PR,
+            [item]: value,
+          });
+        } else {
+          return setPR({
+            ...PR,
+            [item]: value,
+            selected: [...PR.selected, item],
+          });
+        }
+
+      case "AT":
+        const ATfilter = AT.selected.filter(
+          (currentItem) => currentItem === item
+        );
+
+        if (ATfilter.length !== 0) {
+          console.log("Repicked");
+          return setAT({
+            ...AT,
+            [item]: value,
+          });
+        } else {
+          return setAT({
+            ...AT,
+            [item]: value,
+            selected: [...AT.selected, item],
+          });
+        }
+
+      case "BI":
+        const BIfilter = BI.selected.filter(
+          (currentItem) => currentItem === item
+        );
+
+        if (BIfilter.length !== 0) {
+          console.log("Repicked");
+          return setBI({
+            ...BI,
+            [item]: value,
+          });
+        } else {
+          return setBI({
+            ...BI,
+            [item]: value,
+            selected: [...BI.selected, item],
+          });
+        }
+
       default:
         break;
     }
@@ -131,6 +234,46 @@ export default function Index() {
       case 3:
         console.log(PE);
         if (PE.selected.length !== pernyataan[1].items.length) {
+          toast.error("Masih ada pertanyaan yang kosong!");
+          return false;
+        }
+        return true;
+
+      case 4:
+        console.log(SI);
+        if (SI.selected.length !== pernyataan[2].items.length) {
+          toast.error("Masih ada pertanyaan yang kosong!");
+          return false;
+        }
+        return true;
+
+      case 5:
+        console.log(FC);
+        if (FC.selected.length !== pernyataan[3].items.length) {
+          toast.error("Masih ada pertanyaan yang kosong!");
+          return false;
+        }
+        return true;
+
+      case 6:
+        console.log(PR);
+        if (PR.selected.length !== pernyataan[4].items.length) {
+          toast.error("Masih ada pertanyaan yang kosong!");
+          return false;
+        }
+        return true;
+
+      case 7:
+        console.log(AT);
+        if (AT.selected.length !== pernyataan[5].items.length) {
+          toast.error("Masih ada pertanyaan yang kosong!");
+          return false;
+        }
+        return true;
+
+      case 8:
+        console.log(BI);
+        if (BI.selected.length !== pernyataan[6].items.length) {
           toast.error("Masih ada pertanyaan yang kosong!");
           return false;
         }
@@ -180,7 +323,7 @@ export default function Index() {
       return;
     }
 
-    if (pos <= 3) {
+    if (pos <= 8) {
       e.preventDefault();
 
       analytics.logEvent("next_button", {
@@ -202,11 +345,9 @@ export default function Index() {
       .collection("respondents-test")
       .doc(String(now.valueOf()));
 
-    console.log(answers);
-
     if (checkAnswerCount()) {
       firestoreRef
-        .set(answers)
+        .set({ ...answers, timeSubmitted: now })
         .then(() => {
           console.log("Success!");
           analytics.logEvent("success_send");
@@ -216,7 +357,7 @@ export default function Index() {
           setSubmitInfo({
             timeSubmitted: now,
             id: now.valueOf(),
-            answers: { PE, EE },
+            answers,
           });
         })
         .catch((err) => {
@@ -230,13 +371,16 @@ export default function Index() {
   }
 
   // setSubmitInfo({});
-  console.log(successSubmit);
-  console.log(hasSubmitted);
+  // console.log(successSubmit);
+  // console.log(hasSubmitted);
 
   return (
     <div className="pt-8 pb-20 px-6" ref={pageStartRef}>
       <div className="mb-10">
-        <h1 className="text-center font-bold text-2xl text-yellow-500">
+        <h1
+          className="text-center text-2xl"
+          style={{ color: "#FF5851", fontWeight: 600 }}
+        >
           Kuesioner Skripsi
         </h1>
         <p className="text-center font-bold mt-2 text-gray-500">
@@ -272,6 +416,41 @@ export default function Index() {
                 handleItem={handleItem}
               />
             )}
+            {pos === 4 && (
+              <Form
+                data={pernyataan[2]}
+                selected={SI}
+                handleItem={handleItem}
+              />
+            )}
+            {pos === 5 && (
+              <Form
+                data={pernyataan[3]}
+                selected={FC}
+                handleItem={handleItem}
+              />
+            )}
+            {pos === 6 && (
+              <Form
+                data={pernyataan[4]}
+                selected={PR}
+                handleItem={handleItem}
+              />
+            )}
+            {pos === 7 && (
+              <Form
+                data={pernyataan[5]}
+                selected={AT}
+                handleItem={handleItem}
+              />
+            )}
+            {pos === 8 && (
+              <Form
+                data={pernyataan[6]}
+                selected={BI}
+                handleItem={handleItem}
+              />
+            )}
           </>
         )}
 
@@ -288,7 +467,7 @@ export default function Index() {
               >
                 Kembali
               </button>
-              {pos === 3 ? (
+              {pos === 8 ? (
                 <button
                   className="py-2 px-6 rounded-lg border border-gray-400 shadow-lg focus:shadow-sm transition duration-150 "
                   onClick={handleSubmit}
@@ -314,25 +493,33 @@ export default function Index() {
 
       <div
         className={`max-w-xl mx-auto ${
-          successSubmit || hasSubmitted ? "hidden" : ""
+          successSubmit || hasSubmitted || pos === 0 ? "hidden" : ""
         }`}
       >
         <div className="h-4 border w-3/5 mx-auto border-gray-300 shadow-lg rounded-full bg-white mt-10">
           <div
             className={`h-full bg-green-500 rounded-full transition-all duration-150 ${
-              pos === 0 || pos === 1
-                ? "w-1/4"
+              pos === 1
+                ? "progress-1"
                 : pos === 2
-                ? "w-2/4"
+                ? "progress-2"
                 : pos === 3
-                ? "w-3/4"
-                : successSubmit
-                ? "w-full"
+                ? "progress-3"
+                : pos === 4
+                ? "progress-4"
+                : pos === 5
+                ? "progress-5"
+                : pos === 6
+                ? "progress-6"
+                : pos === 7
+                ? "progress-7"
+                : pos === 8
+                ? "progress-8"
                 : ""
             }`}
           ></div>
         </div>
-        <p className="text-center text-sm mt-2">Halaman {pos + 1} dari 5</p>
+        <p className="text-center text-sm mt-2">Halaman {pos} dari 8</p>
       </div>
     </div>
   );
