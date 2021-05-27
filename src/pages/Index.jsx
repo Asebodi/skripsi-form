@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 export default function Index() {
   const pageStartRef = useRef(null);
 
+  const [errors, setErrors] = useState([]);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [successSubmit, setSuccessSubmit] = useState(false);
   const [submitInfo, setSubmitInfo] = useLocalStorage("submitInfo", null);
@@ -39,9 +40,15 @@ export default function Index() {
   //   setMainHeight(height);
   // }
   // const [answer, setAnswer] = useState({})
-  const [PE, setPE] = useState({});
 
-  const [EE, setEE] = useState({});
+  const answers = {};
+
+  const [PE, setPE] = useState({
+    selected: [],
+  });
+  const [EE, setEE] = useState({
+    selected: [],
+  });
 
   function scrollToTop() {
     pageStartRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -51,12 +58,47 @@ export default function Index() {
     event.preventDefault();
     console.log(id, item, value);
 
+    let clone;
+
     switch (id) {
       case "PE":
-        return setPE({ ...PE, [item]: value });
+        clone = PE;
+        clone[selected].push({ item });
+        clone[item] = value;
+
+        return setPE(clone);
 
       case "EE":
-        return setEE({ ...EE, [item]: value });
+        clone = EE;
+        clone[selected].push({ item });
+        clone[item] = value;
+
+        return setEE(clone);
+
+      default:
+        break;
+    }
+  }
+
+  function checkAnswerCount() {
+    let answered;
+
+    switch (pos) {
+      case 0:
+        answered = EE.selected;
+        if (answered.length !== pernyataan[0].items.length) {
+          toast("Masih ada pertanyaan yang kosong!");
+          return false;
+        }
+        return true;
+
+      case 1:
+        answered = PE.selected;
+        if (answered.length !== pernyataan[1].items.length) {
+          toast("Masih ada pertanyaan yang kosong!");
+          return false;
+        }
+        return true;
 
       default:
         break;
@@ -76,8 +118,10 @@ export default function Index() {
     e.preventDefault();
 
     if (pos <= 3) {
-      setPos(pos + 1);
-      scrollToTop();
+      if (checkAnswerCount()) {
+        setPos(pos + 1);
+        scrollToTop();
+      }
     }
   }
 
@@ -188,37 +232,36 @@ export default function Index() {
           <Finish />
         </CSSTransition> */}
 
-        <div
-          className={`flex items-center justify-between mt-8 px-8 py-6 ${
-            successSubmit || hasSubmitted ? "hidden" : ""
-          }`}
-        >
-          {/* <div className={`flex items-center justify-between mt-8 px-8 py-6`}> */}
-          <button
-            className={`py-2 px-6 rounded-lg border border-gray-400 shadow-lg focus:shadow-sm transition duration-150 ${
-              pos === 0 ? "opacity-50" : ""
-            }`}
-            disabled={pos === 0}
-            onClick={handlePrev}
-          >
-            Kembali
-          </button>
-          {pos === 2 ? (
-            <button
-              className="py-2 px-6 rounded-lg border border-gray-400 shadow-lg focus:shadow-sm transition duration-150 "
-              onClick={handleSubmit}
-            >
-              Kirim
-            </button>
-          ) : (
-            <button
-              className="py-2 px-6 rounded-lg border border-gray-400 shadow-lg focus:shadow-sm transition duration-150 "
-              onClick={handleNext}
-            >
-              Lanjut
-            </button>
-          )}
-        </div>
+        {!successSubmit ||
+          (!hasSubmitted && (
+            <div className={`flex items-center justify-between mt-8 px-8 py-6`}>
+              {/* <div className={`flex items-center justify-between mt-8 px-8 py-6`}> */}
+              <button
+                className={`py-2 px-6 rounded-lg border border-gray-400 shadow-lg focus:shadow-sm transition duration-150 ${
+                  pos === 0 ? "opacity-50" : ""
+                }`}
+                disabled={pos === 0}
+                onClick={handlePrev}
+              >
+                Kembali
+              </button>
+              {pos === 2 ? (
+                <button
+                  className="py-2 px-6 rounded-lg border border-gray-400 shadow-lg focus:shadow-sm transition duration-150 "
+                  onClick={handleSubmit}
+                >
+                  Kirim
+                </button>
+              ) : (
+                <button
+                  className="py-2 px-6 rounded-lg border border-gray-400 shadow-lg focus:shadow-sm transition duration-150 "
+                  onClick={handleNext}
+                >
+                  Lanjut
+                </button>
+              )}
+            </div>
+          ))}
       </main>
 
       <div className={`max-w-xl mx-auto ${hasSubmitted ? "hidden" : ""}`}>
