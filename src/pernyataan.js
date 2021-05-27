@@ -8,7 +8,7 @@ const pernyataan = [
     items: [
       {
         itemId: "EE1",
-        isNegative: false,
+        isNegative: true,
         question: "Aplikasi Lapor Sleman mudah dipelajari.",
       },
       {
@@ -19,7 +19,7 @@ const pernyataan = [
       },
       {
         itemId: "EE3",
-        isNegative: false,
+        isNegative: true,
         question:
           "Bagi saya aplikasi Lapor Sleman tidak rumit untuk digunakan.",
       },
@@ -41,7 +41,7 @@ const pernyataan = [
     items: [
       {
         itemId: "PE1",
-        isNegative: false,
+        isNegative: true,
         question: "Aplikasi Lapor Sleman dapat mempercepat proses pengaduan.",
       },
       {
