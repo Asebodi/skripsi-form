@@ -18,8 +18,7 @@ export default function Finish() {
         </div>
         <div className="">
           <p className="">
-            Anda akan dikontak melalui Whatsapp jika beruntung mendapatkan
-            hadiah.
+            Anda akan dihubungi melalui Whatsapp jika beruntung.
           </p>
           <Link to="/undian" className="block mt-2 underline text-purple-800">
             Lebih lanjut

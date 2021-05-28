@@ -42,11 +42,14 @@ export default function Onboarding() {
           </div>
           <div className="">
             <h2 className="font-bold text-md">
-              Akan dibagi 100rb saldo Ovo/Dana/Gopay untuk 5 responden beruntung
+              Akan dibagi 100rb saldo dompet digital untuk 5 responden beruntung
             </h2>
           </div>
         </div>
-        <Link to="/undian" className="underline block mt-4 text-center">
+        <Link
+          to="/undian"
+          className="underline block mt-4 text-center text-purple-800"
+        >
           Lebih lanjut
         </Link>
       </div>
