@@ -1,9 +1,34 @@
 const pernyataan = [
   {
+    title: "Performance Expectancy",
+    titleInd: "Ekspektasi Manfaat",
+    id: "PE",
+    color: "bg-red-400",
+
+    items: [
+      {
+        itemId: "PE1",
+        isNegative: false,
+        question: "Aplikasi Lapor Sleman dapat mempercepat proses pengaduan.",
+      },
+      {
+        itemId: "PE3",
+        isNegative: false,
+        question: "Aplikasi Lapor Sleman dapat memudahkan proses pengaduan.",
+      },
+      {
+        itemId: "PE5",
+        isNegative: false,
+        question: "Aplikasi Lapor Sleman sangat bermanfaat bagi saya.",
+      },
+    ],
+  },
+
+  {
     title: "Effort Expectancy",
     titleInd: "Ekspektasi Kemudahan",
     id: "EE",
-    color: "bg-red-400",
+    color: "bg-green-500",
 
     items: [
       {
@@ -21,38 +46,13 @@ const pernyataan = [
         itemId: "EE5",
         isNegative: false,
         question:
-          "Bagi saya aplikasi Lapor Sleman tidak rumit untuk digunakan.",
+          "Bagi saya aplikasi Lapor Sleman tidak rumit ketika digunakan.",
       },
       {
         itemId: "EE6",
         isNegative: false,
         question:
-          "Saya tidak merasa bingung ketika menggunakan aplikasi Lapor Sleman.",
-      },
-    ],
-  },
-
-  {
-    title: "Performance Expectancy",
-    titleInd: "Ekspektasi Manfaat",
-    id: "PE",
-    color: "bg-green-500",
-
-    items: [
-      {
-        itemId: "PE1",
-        isNegative: false,
-        question: "Aplikasi Lapor Sleman dapat mempercepat proses pengaduan.",
-      },
-      {
-        itemId: "PE3",
-        isNegative: false,
-        question: "Aplikasi Lapor Sleman dapat memudahkan proses pengaduan.",
-      },
-      {
-        itemId: "PE5",
-        isNegative: false,
-        question: "Aplikasi Lapor Sleman sangat bermanfaat bagi saya.",
+          "Saya tidak bingung ketika menggunakan aplikasi Lapor Sleman.",
       },
     ],
   },
@@ -186,7 +186,7 @@ const pernyataan = [
         itemId: "AT3",
         isNegative: false,
         question:
-          "Saya merasa bahwa aplikasi Lapor Sleman merpakan cara terbaik dalam melakukan pengaduan.",
+          "Saya merasa bahwa aplikasi Lapor Sleman merupakan cara terbaik dalam melakukan pengaduan.",
       },
     ],
   },
