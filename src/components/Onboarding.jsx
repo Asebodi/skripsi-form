@@ -31,6 +31,11 @@ export default function Onboarding() {
       </p>
 
       <p className="mb-4">
+        Survei ini membutuhkan waktu sekitar 3 menit. Dengan mengklik tombol
+        "Lanjut", maka Saudara/i setuju untuk terlibat dalam survei ini.
+      </p>
+
+      <p className="mb-4">
         Atas kesediaan dan partisipasi Bapak/Ibu/Saudara/i dalam mengisi
         kuesioner ini, saya ucapkan banyak terimakasih.
       </p>

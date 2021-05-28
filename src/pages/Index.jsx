@@ -455,12 +455,12 @@ export default function Index() {
           hasSubmitted === false ? (
             <div
               className={`flex items-center justify-between ${
-                pos === 1 ? "" : "mt-8"
+                pos === 0 || pos === 1 ? "" : "mt-8"
               } px-8 py-6`}
             >
               {/* <div className={`flex items-center justify-between mt-8 px-8 py-6`}> */}
               <button
-                className={`py-2 px-6 rounded-lg border border-gray-400 shadow-lg focus:shadow-sm transition duration-150 ${
+                className={`py-2 px-6 rounded-lg border border-gray-400 shadow-lg focus:shadow-sm transition duration-150 font-bold ${
                   pos === 0 ? "opacity-50" : ""
                 }`}
                 disabled={pos === 0}
@@ -470,14 +470,14 @@ export default function Index() {
               </button>
               {pos === 8 ? (
                 <button
-                  className="py-2 px-6 rounded-lg border border-gray-400 shadow-lg focus:shadow-sm transition duration-150 "
+                  className="py-2 px-6 rounded-lg border border-gray-400 shadow-lg focus:shadow-sm transition duration-150 font-bold "
                   onClick={handleSubmit}
                 >
                   Kirim
                 </button>
               ) : (
                 <button
-                  className="py-2 px-6 rounded-lg border border-gray-400 shadow-lg focus:shadow-sm transition duration-150 "
+                  className="py-2 px-6 rounded-lg border border-gray-400 shadow-lg focus:shadow-sm transition duration-150 font-bold "
                   onClick={handleNext}
                 >
                   Lanjut
