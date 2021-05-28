@@ -42,7 +42,8 @@ export default function Onboarding() {
           </div>
           <div className="">
             <h2 className="font-bold text-md">
-              Akan dibagi 100rb saldo dompet digital untuk 5 responden beruntung
+              Akan dibagi 350rb saldo dompet digital kepada 5 responden
+              beruntung
             </h2>
           </div>
         </div>

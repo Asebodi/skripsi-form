@@ -21,8 +21,10 @@ export default function Undian() {
         </h1>
 
         <p className="mb-4">
-          Akan dibagikan saldo dompet elektronik sebesar 100rb Rupiah untuk 5
-          responden yang beruntung.
+          Akan dibagikan saldo dompet elektronik dengan total sebesar 350rb
+          rupiah untuk 5 responden yang beruntung. 2 responden yang terpilih
+          akan mendapatkan saldo 100rb dan 3 responden terpilih akan mendapatkan
+          saldo 50rb.
         </p>
         <p className="mb-4">
           Pemenang undian ditentukan menggunakan tools online yang digunakan
@@ -40,7 +42,7 @@ export default function Undian() {
         <p className="mb-4">
           Jika pemenang tidak membalas pesan Whatsapp selama 1x24 jam atau
           pemenang tidak memasukkan nomor Whatsapp, maka hadiah akan diberikan
-          ke pemenang lain (pengundian ulang)
+          ke responden lain (pengundian ulang)
         </p>
         {/* <div className="flex items-center mt-10 bg-white rounded-xl shadow-xl border border-gray-100 py-3 px-4">
             <div className="p-3 mr-4 rounded-full bg-gray-200">
