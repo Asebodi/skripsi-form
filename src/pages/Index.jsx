@@ -33,7 +33,8 @@ export default function Index() {
   const [answers, setAnswers] = useState({
     name: "",
     phoneNum: "",
-    ageRange: "",
+    age: "",
+    education: "",
     sex: "",
   });
 
@@ -63,9 +64,7 @@ export default function Index() {
     pageStartRef.current?.scrollIntoView({ behavior: "smooth" });
   }
 
-  function handleBio(event, item, value) {
-    event.preventDefault();
-
+  function handleBio(item, value) {
     setAnswers({ ...answers, [item]: value });
   }
 
@@ -74,7 +73,6 @@ export default function Index() {
     console.log(id, item, value);
 
     setAnswers({ ...answers, [item]: actualValue });
-    console.log(answers);
 
     switch (id) {
       case "PE":
@@ -224,23 +222,20 @@ export default function Index() {
         return true;
 
       case 2:
-        console.log(EE);
-        if (EE.selected.length !== pernyataan[0].items.length) {
+        if (PE.selected.length !== pernyataan[0].items.length) {
           toast.error("Masih ada pertanyaan yang kosong!");
           return false;
         }
         return true;
 
       case 3:
-        console.log(PE);
-        if (PE.selected.length !== pernyataan[1].items.length) {
+        if (EE.selected.length !== pernyataan[1].items.length) {
           toast.error("Masih ada pertanyaan yang kosong!");
           return false;
         }
         return true;
 
       case 4:
-        console.log(SI);
         if (SI.selected.length !== pernyataan[2].items.length) {
           toast.error("Masih ada pertanyaan yang kosong!");
           return false;
@@ -248,7 +243,6 @@ export default function Index() {
         return true;
 
       case 5:
-        console.log(FC);
         if (FC.selected.length !== pernyataan[3].items.length) {
           toast.error("Masih ada pertanyaan yang kosong!");
           return false;
@@ -256,7 +250,6 @@ export default function Index() {
         return true;
 
       case 6:
-        console.log(PR);
         if (PR.selected.length !== pernyataan[4].items.length) {
           toast.error("Masih ada pertanyaan yang kosong!");
           return false;
@@ -264,7 +257,6 @@ export default function Index() {
         return true;
 
       case 7:
-        console.log(AT);
         if (AT.selected.length !== pernyataan[5].items.length) {
           toast.error("Masih ada pertanyaan yang kosong!");
           return false;
@@ -272,7 +264,6 @@ export default function Index() {
         return true;
 
       case 8:
-        console.log(BI);
         if (BI.selected.length !== pernyataan[6].items.length) {
           toast.error("Masih ada pertanyaan yang kosong!");
           return false;
@@ -285,7 +276,12 @@ export default function Index() {
   }
 
   function checkBio() {
-    if (answers.name && answers.ageRange && answers.sex) {
+    if (
+      answers.name &&
+      answers.age !== "" &&
+      answers.sex !== "" &&
+      answers.education !== ""
+    ) {
       return true;
     } else {
       toast.error("Data belum lengkap!");
@@ -296,7 +292,7 @@ export default function Index() {
   function handlePrev(e) {
     e.preventDefault();
 
-    if (pos >= 0) {
+    if (pos > 0) {
       setPos(pos - 1);
       scrollToTop();
     }
@@ -316,7 +312,6 @@ export default function Index() {
       });
 
       if (checkBio()) {
-        console.log(answers);
         setPos(pos + 1);
         scrollToTop();
       }
@@ -342,7 +337,7 @@ export default function Index() {
     analytics.logEvent("submit_button");
     const now = new Date();
     const firestoreRef = firestore
-      .collection("respondents-test")
+      .collection("respondents")
       .doc(String(now.valueOf()));
 
     if (checkAnswerCount()) {
@@ -386,6 +381,8 @@ export default function Index() {
         <p className="text-center font-bold mt-2 text-gray-500">
           Muhammad Raharditya Athafitra
           <br />
+          Administrasi Negara
+          <br />
           FISIP UNS
         </p>
       </div>
@@ -405,14 +402,14 @@ export default function Index() {
             {pos === 2 && (
               <Form
                 data={pernyataan[0]}
-                selected={EE}
+                selected={PE}
                 handleItem={handleItem}
               />
             )}
             {pos === 3 && (
               <Form
                 data={pernyataan[1]}
-                selected={PE}
+                selected={EE}
                 handleItem={handleItem}
               />
             )}
@@ -456,7 +453,11 @@ export default function Index() {
 
         {successSubmit === false ? (
           hasSubmitted === false ? (
-            <div className={`flex items-center justify-between mt-8 px-8 py-6`}>
+            <div
+              className={`flex items-center justify-between ${
+                pos === 1 ? "" : "mt-8"
+              } px-8 py-6`}
+            >
               {/* <div className={`flex items-center justify-between mt-8 px-8 py-6`}> */}
               <button
                 className={`py-2 px-6 rounded-lg border border-gray-400 shadow-lg focus:shadow-sm transition duration-150 ${
