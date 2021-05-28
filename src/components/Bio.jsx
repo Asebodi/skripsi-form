@@ -70,7 +70,7 @@ export default function Bio(props) {
                 onChange={() => props.handleBio("education", 0)}
               />
               <label htmlFor="education0" className="pl-2">
-                SMP/SMA
+                SMP
               </label>
             </div>
             <div className="flex items-center mb-2">
@@ -83,7 +83,7 @@ export default function Bio(props) {
                 onChange={() => props.handleBio("education", 1)}
               />
               <label htmlFor="education1" className="pl-2">
-                D3
+                SMA
               </label>
             </div>
             <div className="flex items-center mb-2">
@@ -96,7 +96,7 @@ export default function Bio(props) {
                 onChange={() => props.handleBio("education", 2)}
               />
               <label htmlFor="education2" className="pl-2">
-                S1
+                D3
               </label>
             </div>
             <div className="flex items-center mb-2">
@@ -109,6 +109,19 @@ export default function Bio(props) {
                 onChange={() => props.handleBio("education", 3)}
               />
               <label htmlFor="education3" className="pl-2">
+                S1
+              </label>
+            </div>
+            <div className="flex items-center mb-2">
+              <input
+                type="radio"
+                name="education"
+                id="education4"
+                value={4}
+                checked={props.answers.education === 4}
+                onChange={() => props.handleBio("education", 4)}
+              />
+              <label htmlFor="education4" className="pl-2">
                 S2
               </label>
             </div>
