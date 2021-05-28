@@ -8,9 +8,7 @@ export default function Bio(props) {
           <h2 className="mb-3 font-bold">Nama</h2>
           <input
             value={props.answers.name}
-            onChange={(event) =>
-              props.handleBio(event, "name", event.target.value)
-            }
+            onChange={(event) => props.handleBio("name", event.target.value)}
             type="text"
             className="border border-gray-500 w-full rounded-lg py-2 px-2"
           />
@@ -18,19 +16,15 @@ export default function Bio(props) {
 
         <div className="mb-8">
           <h2 className="mb-3 font-bold">Jenis Kelamin</h2>
-          <div
-            className=""
-            onChange={(event) =>
-              props.handleBio(event, "sex", event.target.value)
-            }
-          >
+          <div className="">
             <div className="flex items-center mb-2">
               <input
                 type="radio"
                 name="sex"
                 id="sex0"
                 value={0}
-                defaultChecked={props.answers.sex === 0}
+                checked={props.answers.sex === 0}
+                onChange={() => props.handleBio("sex", 0)}
               />
               <label htmlFor="sex0" className="pl-2">
                 Laki-laki
@@ -42,7 +36,8 @@ export default function Bio(props) {
                 name="sex"
                 id="sex1"
                 value={1}
-                defaultChecked={props.answers.sex === 1}
+                checked={props.answers.sex === 1}
+                onChange={() => props.handleBio("sex", 1)}
               />
               <label htmlFor="sex1" className="pl-2">
                 Perempuan
@@ -53,41 +48,68 @@ export default function Bio(props) {
 
         <div className="mb-8">
           <h2 className="mb-3 font-bold">Umur</h2>
+          <input
+            value={props.answers.age}
+            onChange={(event) => props.handleBio("age", event.target.value)}
+            type="number"
+            className="border border-gray-500 w-full rounded-lg py-2 px-2"
+          />
+        </div>
 
-          <div
-            className=""
-            onChange={(event) =>
-              props.handleBio(event, "ageRange", event.target.value)
-            }
-          >
+        <div className="mb-8">
+          <h2 className="mb-3 font-bold">Pendidikan Terakhir</h2>
+
+          <div className="">
             <div className="flex items-center mb-2">
-              <input type="radio" name="age" id="age0" value={0} />
-              <label htmlFor="age0" className="pl-2">
-                17 - 24 Tahun
+              <input
+                type="radio"
+                name="education"
+                id="education0"
+                value={0}
+                checked={props.answers.education === 0}
+                onChange={() => props.handleBio("education", 0)}
+              />
+              <label htmlFor="education0" className="pl-2">
+                SMP/SMA
               </label>
             </div>
             <div className="flex items-center mb-2">
-              <input type="radio" name="age" id="age1" value={1} />
-              <label htmlFor="age1" className="pl-2">
-                25 - 34 Tahun
+              <input
+                type="radio"
+                name="education"
+                id="education1"
+                value={1}
+                checked={props.answers.education === 1}
+                onChange={() => props.handleBio("education", 1)}
+              />
+              <label htmlFor="education1" className="pl-2">
+                D3
               </label>
             </div>
             <div className="flex items-center mb-2">
-              <input type="radio" name="age" id="age2" value={2} />
-              <label htmlFor="age2" className="pl-2">
-                35 - 49 Tahun
+              <input
+                type="radio"
+                name="education"
+                id="education2"
+                value={2}
+                checked={props.answers.education === 2}
+                onChange={() => props.handleBio("education", 2)}
+              />
+              <label htmlFor="education2" className="pl-2">
+                S1
               </label>
             </div>
             <div className="flex items-center mb-2">
-              <input type="radio" name="age" id="age3" value={3} />
-              <label htmlFor="age3" className="pl-2">
-                50 - 64 Tahun
-              </label>
-            </div>
-            <div className="flex items-center mb-2">
-              <input type="radio" name="age" id="age4" value={4} />
-              <label htmlFor="age4" className="pl-2">
-                65 tahun keatas
+              <input
+                type="radio"
+                name="education"
+                id="education3"
+                value={3}
+                checked={props.answers.education === 3}
+                onChange={() => props.handleBio("education", 3)}
+              />
+              <label htmlFor="education3" className="pl-2">
+                S2
               </label>
             </div>
           </div>
@@ -99,11 +121,11 @@ export default function Bio(props) {
             (Opsional, digunakan untuk pengundian hadiah)
           </small>
           <input
-            type="telephone"
+            type="tel"
             className="border border-gray-500 w-full rounded-lg py-2 px-2"
             value={props.answers.phoneNum}
             onChange={(event) =>
-              props.handleBio(event, "phoneNum", event.target.value)
+              props.handleBio("phoneNum", event.target.value)
             }
           />
         </div>
