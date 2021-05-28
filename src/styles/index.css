@@ -16,25 +16,6 @@ body {
   padding-bottom: 0;
 }
 
-.my-node-enter {
-  opacity: 0;
-  transition: opacity 200ms ease-in-out;
-}
-.my-node-enter-active {
-  opacity: 1;
-  position: absolute;
-  transition-delay: 300ms;
-}
-.my-node-exit {
-  opacity: 1;
-  transition: opacity 200ms ease-in-out;
-}
-.my-node-exit-active {
-  opacity: 0;
-  position: absolute;
-  transition-delay: 300ms;
-}
-
 .progress-1 {
   width: 12.5%;
 }
