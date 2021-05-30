@@ -10,6 +10,8 @@ import { analytics, firestore } from "../firebase";
 import { toast } from "react-toastify";
 import Bio from "../components/Bio";
 import Recorded from "../components/Recorded";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import Loader from "react-loader-spinner";
 
 export default function Index() {
   const pageStartRef = useRef(null);
@@ -17,6 +19,7 @@ export default function Index() {
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [successSubmit, setSuccessSubmit] = useState(false);
   const [submitInfo, setSubmitInfo] = useLocalStorage("submitInfo", null);
+  const [submitLoading, setSubmitLoading] = useState(false);
 
   useEffect(() => {
     analytics.logEvent("page_view", {
@@ -334,6 +337,11 @@ export default function Index() {
   }
 
   function handleSubmit() {
+    if (submitLoading) {
+      console.log("already on progress");
+      return;
+    }
+
     analytics.logEvent("submit_button");
     const now = new Date();
     const firestoreRef = firestore
@@ -341,6 +349,8 @@ export default function Index() {
       .doc(String(now.valueOf()));
 
     if (checkAnswerCount()) {
+      setSubmitLoading(true);
+
       firestoreRef
         .set({ ...answers, timeSubmitted: now })
         .then(() => {
@@ -354,6 +364,7 @@ export default function Index() {
             id: now.valueOf(),
             answers,
           });
+          setSubmitLoading(false);
         })
         .catch((err) => {
           console.log(err);
@@ -470,10 +481,24 @@ export default function Index() {
               </button>
               {pos === 8 ? (
                 <button
-                  className="py-2 px-6 rounded-lg border border-gray-400 shadow-lg focus:shadow-sm transition duration-150 font-bold "
+                  className={`border border-gray-400 shadow-lg focus:shadow-sm transition-all duration-150 ease-in-out font-bold ${
+                    submitLoading
+                      ? "py-2 px-2 rounded-full"
+                      : "py-2 px-6 rounded-lg"
+                  }`}
                   onClick={handleSubmit}
+                  disabled={submitLoading}
                 >
-                  Kirim
+                  {submitLoading ? (
+                    <Loader
+                      type="TailSpin"
+                      color="#393e46"
+                      width={25}
+                      height={25}
+                    />
+                  ) : (
+                    "Kirim"
+                  )}
                 </button>
               ) : (
                 <button
