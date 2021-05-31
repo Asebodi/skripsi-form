@@ -372,6 +372,7 @@ export default function Index() {
             description: err.message,
           });
           toast.error(`Error: ${err.message}`);
+          setSubmitLoading(false);
         });
     }
   }
